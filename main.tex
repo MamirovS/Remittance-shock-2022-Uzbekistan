@@ -1,0 +1,184 @@
+% !TEX program = pdflatex
+% !BIB program = biber
+%  Remittance Shocks and Household Welfare in Uzbekistan
+%  Evidence from the 2022 Russia Crisis
+%  Self-contained main file. Reproduces the layout required by the Department
+%  of Economics at the University of Bonn: 11pt Times, margins 2.8/2.5/4/2.8 cm,
+%  19.5pt leading, 35 lines per page, Chicago author-date references.
+%  Upload alongside:  thesis_body.tex, references.bib, figures/
+%  Compiler: pdfLaTeX + Biber
+
+\documentclass[11pt, a4paper, oneside]{article}
+
+% ------------------------------------------------- FILL THESE IN -----------
+\newcommand{\studentfullname}{Sadriddin Mamirov}
+\newcommand{\studentID}{50277441}                 % matriculation number
+\newcommand{\manuscripttitle}{Remittance Shocks and Household Welfare in Uzbekistan: Evidence from the 2022 Russia Crisis}
+\newcommand{\submissionmonth}{September 2026}       % month and year
+\newcommand{\advisorname}{Prof.~Dr.\ Zainab Iftikhar}
+% ---------------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{ragged2e}
+
+% Fonts: Times, as required
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+
+% Page layout: Bonn specification
+\usepackage[bottom=2.8cm, left=2.5cm, right=4cm, top=2.8cm,
+            headheight=15pt, headsep=22.5pt]{geometry}
+\newlength{\baselinedist}\setlength{\baselinedist}{19.5pt}
+\setlength{\textheight}{35\baselinedist}          % exactly 35 lines per page
+\AtBeginDocument{%
+  \setlength{\baselineskip}{\baselinedist}%
+  \setlength{\parindent}{\baselinedist}%
+  \setlength{\parskip}{0pt}%
+  \frenchspacing\sloppy}
+
+% Headings
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{#1}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{#1}
+\titlespacing*{\section}{0pt}{2\baselinedist}{1\baselinedist}
+\titlespacing*{\subsection}{0pt}{1\baselinedist}{1\baselinedist}
+
+% Running head
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\small\studentfullname}
+\fancyhead[R]{\small\thepage}
+
+% Tables
+\usepackage{float}
+\usepackage{rotating}
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs}
+\usepackage[font=small, labelfont={bf,small}, labelsep=period,
+            justification=centering]{caption}
+\captionsetup[figure]{position=below}
+\captionsetup[table]{position=above}
+
+% Note environments used by thesis_body.tex
+\newenvironment{tablenotes}[1][Note]
+  {\par\justifying\medskip\begingroup\footnotesize\noindent\textit{#1:} \ignorespaces}
+  {\par\endgroup}
+\newenvironment{figurenotes}[1][Note]
+  {\par\justifying\medskip\begingroup\footnotesize\noindent\textit{#1:} \ignorespaces}
+  {\par\endgroup}
+
+% Appendix: letters for sections, A-1 page numbers, A.1 float numbers
+\usepackage{chngcntr}
+\usepackage{etoolbox}
+% \appendix already exists as a command in the article class, so free the name
+% before defining an environment with it.
+\let\appendix\relax
+\let\endappendix\relax
+% Defined as a command with global assignments (\gdef, \global) rather than an
+% environment: an environment forms a group, and LaTeX's output routine can ship
+% the final pages after the group closes, which reverts \thepage and loses the
+% A- prefix on the last appendix pages.
+\makeatletter
+\newcommand{\startappendix}{%
+  \clearpage
+  \setcounter{section}{0}%
+  \gdef\thesection{\Alph{section}}%
+  \counterwithin{figure}{section}\counterwithin{table}{section}%
+  \gdef\thepage{A-\arabic{page}}%
+  \global\c@page=1\relax
+  % ##1 (not #1): inside \newcommand, a bare #1 is read as this command's own
+  % argument and raises "Illegal parameter number in definition of
+  % \startappendix". Doubling it passes a literal #1 through to \titleformat.
+  \titleformat{\section}{\normalfont\large\bfseries}{Appendix~\thesection}{1em}{##1}%
+}
+\newenvironment{appendix}{\startappendix}{}
+\makeatother
+
+% References: Chicago author-date
+\usepackage{xurl}
+\usepackage{csquotes}
+\usepackage[authordate, backend=biber, doi=only, isbn=false,
+            natbib=true]{biblatex-chicago}
+\addbibresource{references.bib}
+\let\citeOrig\cite
+\let\cite\textcite                 % \cite{yang2008}    -> Yang (2008)
+\let\citealp\citeOrig              % \citealp{yang2008} -> Yang 2008
+
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% ------------------------------------------------------------- TITLE PAGE --
+\thispagestyle{empty}
+\begin{center}
+  \null\vfill
+  {\fontsize{22pt}{26pt}\bfseries\manuscripttitle\par}
+  \vfill\vfill
+  {\LARGE Master's Thesis\par}
+  \vspace{1.75\baselinedist}
+  Presented to the \\
+  Department of Economics at the \\
+  Rheinische Friedrich-Wilhelms-Universit\"at Bonn
+  \vspace{1.25\baselinedist}
+
+  in partial fulfillment of the requirements for the degree of \\[\baselinedist]
+  Master of Science (M.Sc.) \\ in Economics
+  \vfill\vfill
+  Supervisor: \\ \advisorname
+  \vfill\vfill
+  Submitted in \submissionmonth\ by \\[1.5\baselinedist]
+  {\Large \studentfullname} \\[1.5\baselinedist]
+  Matriculation Number: \studentID
+  \vfill
+\end{center}
+\clearpage
+
+% ---------------------------------------------------------------- ABSTRACT --
+\pagenumbering{roman}
+\thispagestyle{empty}
+\begin{center}{\large\bfseries Abstract}\end{center}
+\vspace{\baselinedist}
+\noindent
+Remittances from Russia are the main source of foreign income for millions of households in Uzbekistan, and the February 2022 invasion of Ukraine was one of the largest shocks to that corridor in a generation. Using the Listening to Citizens of Uzbekistan panel, which follows 2,499 households over 82 monthly rounds from September 2018 to June 2025, this thesis asks whether the shock damaged the welfare of the households that depend on it. Compared with households whose migrants worked outside Russia, Russia-exposed households show no measurable deterioration in food security (+0.027, standard error 0.026). That average conceals two opposite experiences. Migrant households are split by employment formality, a status recorded before the invasion and therefore predetermined. In a difference-in-differences design, food insecurity in informal migrant households rose by 27.9 percentage points (standard error 0.042) more than in formal migrant households, and the difference remains visible more than three years later. The two groups track each other over the pre-shock period, including the COVID-19 pandemic, when no differential appears. The damage is concentrated in food rather than in committed or health expenditure. The findings suggest that formal employment abroad may function as insurance for the household at home, and that aggregate null results in this literature should be checked for composition before they are read as resilience.
+\clearpage
+
+% --------------------------------------------------------------- CONTENTS --
+\thispagestyle{empty}
+\tableofcontents
+\clearpage
+
+% ------------------------------------------------------------------- BODY --
+\pagenumbering{arabic}
+\input{thesis_body}
+
+% ----------------------------------------------------------- BIBLIOGRAPHY --
+% Placed before the appendix so that the appendix keeps its own A- numbering
+% and nothing follows it with a conflicting page style.
+\clearpage
+\printbibliography[heading=bibintoc, title={References}]
+
+% ---------------------------------------------------------------- APPENDIX --
+\startappendix
+\input{thesis_appendix}
+
+% ------------------------------------------------------------ DECLARATION --
+\clearpage
+\thispagestyle{empty}
+\section*{Declaration of Authorship}
+\noindent I hereby affirm that I have written the above thesis independently and
+have used no sources or aids other than those indicated; that the submitted work
+has not previously been submitted for examination at any other university; and
+that it has not been published, either in whole or in part. I have clearly
+indicated all direct quotations and passages paraphrased from other works as
+such.
+
+\vspace{4\baselinedist}
+\noindent\makebox[6cm]{\hrulefill}\hfill\makebox[6cm]{\hrulefill}\\[0.3\baselinedist]
+\noindent\makebox[6cm]{Place, date}\hfill\makebox[6cm]{Signature}
+
+\end{document}
